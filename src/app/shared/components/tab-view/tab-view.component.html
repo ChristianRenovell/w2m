@@ -1,0 +1,5 @@
+<p-tabView (onChange)="onTabChange($event)">
+    <ng-container *ngFor="let tab of modeloTab">
+        <p-tabPanel [header]="tab.header"></p-tabPanel>
+      </ng-container>
+</p-tabView>
