@@ -10,7 +10,6 @@ module.exports = {
     "angular/no-private-call": "error",
     "angular/no-service-method": "error",
     "angular/prefer-component": "error",
-    "angular/prefer-readonly-parameter-types": "error",
     "no-restricted-imports": [
       "error",
       {
