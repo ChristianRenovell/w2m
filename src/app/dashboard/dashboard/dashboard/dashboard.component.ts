@@ -6,6 +6,7 @@ import {
   inject,
 } from '@angular/core';
 import { SpinnerService } from 'src/app/shared/services/spinner.service';
+import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,7 +18,6 @@ import { SpinnerService } from 'src/app/shared/services/spinner.service';
 })
 export class DashboardComponent implements OnInit {
   private spinnerService = inject(SpinnerService);
-  ngOnInit(): void {
-    //this.spinnerService.showSpinner(true);
-  }
+  private toastService = inject(ToastService);
+  ngOnInit(): void {}
 }

@@ -4,11 +4,12 @@ import { TabViewComponent } from '../shared/components/tab-view/tab-view.compone
 import { MAIN_TABS } from '../shared/constants/modelTabs';
 import { ModeloTab } from '../core/models/modelTab';
 import { SpinnerComponent } from '../shared/components/spinner/spinner.component';
+import { ToastComponent } from '../shared/components/toast/toast.component';
 
 @Component({
   selector: 'app-dashboard-layout',
   standalone: true,
-  imports: [RouterOutlet, TabViewComponent, SpinnerComponent],
+  imports: [RouterOutlet, TabViewComponent, SpinnerComponent, ToastComponent],
   templateUrl: './DashboardLayout.component.html',
   styleUrls: ['./DashboardLayout.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
