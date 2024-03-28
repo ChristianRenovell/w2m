@@ -1,0 +1,17 @@
+<div class="card-hero">
+    <p-card (click)="goTuHeroManagement(hero.id)" header="{{hero.name}}" subheader="{{hero.fullName | appFullName}}" 
+    [style]="{ width: 'auto', cursor: 'pointer'}">
+        <ng-template pTemplate="header">
+            <img alt="Card" src="{{hero.images}}" [style]="{ width: '100%', height: '280px', objectFit: 'cover'}"/>
+        </ng-template>
+        <div>
+             <strong>Height:</strong> {{hero.height}} - <strong>Weight:</strong> {{hero.weight}}
+        </div>
+        <div class="mt-3">
+            <strong>Power:</strong> {{hero.power}} - <strong>Strength:</strong> {{hero.strength}} 
+        </div>
+        <div class="mt-3">
+            <strong>Speed:</strong> {{hero.speed}}
+        </div>
+    </p-card>
+</div>

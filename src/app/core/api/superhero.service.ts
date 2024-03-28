@@ -43,7 +43,7 @@ export class SuperheroService {
       power: hero.powerstats.power,
       strength: hero.powerstats.strength,
       speed: hero.powerstats.speed,
-      images: hero.images.md,
+      images: hero.images.sm,
     };
   }
 }

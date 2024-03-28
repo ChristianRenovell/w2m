@@ -16,7 +16,7 @@ export const DASHBOARD_ROUTES: Routes = [
           ),
       },
       {
-        path: 'management',
+        path: 'management/:mode/:id',
         loadComponent: () =>
           import('./management/management/management.component').then(
             (m) => m.ManagementComponent

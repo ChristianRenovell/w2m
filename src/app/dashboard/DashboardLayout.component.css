@@ -1,3 +1,8 @@
 :host {
   display: block;
 }
+
+.dashboard-layout {
+  margin: 0 auto;
+  max-width: 60em;
+}
