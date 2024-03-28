@@ -1,6 +1,18 @@
 
 <div class="grid heroes-list">
-    <div class="lg:col-4" *ngFor="let hero of superHeroes">
-        <app-card-hero [hero]="hero"></app-card-hero>
+    <div class="col-12 card ">
+        <p-card> 
+            <div class="flex justify-content-start">
+                <span class="p-float-label">
+                    <p-autoComplete inputId="float-label" [(ngModel)]="seachHero" (ngModelChange)="searchHero()"></p-autoComplete>
+                    <label for="float-label">Search</label>
+                </span>
+            </div>
+        </p-card>
+    </div>
+    <div class="col-12 flex justify-content-start" style="flex-wrap: wrap">
+        <div class="lg:col-4" *ngFor="let hero of superHeroes">
+            <app-card-hero [hero]="hero"></app-card-hero>
+        </div>
     </div>
 </div>

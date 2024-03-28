@@ -4,8 +4,8 @@ export interface SuperHeroModel {
   fullName: string;
   height: string;
   weight: string;
-  power: string;
-  strength: string;
-  speed: string;
+  power: number;
+  strength: number;
+  speed: number;
   images: string;
 }
