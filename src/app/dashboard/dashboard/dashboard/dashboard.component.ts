@@ -5,6 +5,7 @@ import {
   OnInit,
   inject,
 } from '@angular/core';
+import { DialogService } from 'src/app/shared/services/dialog.service';
 import { SpinnerService } from 'src/app/shared/services/spinner.service';
 import { ToastService } from 'src/app/shared/services/toast.service';
 
@@ -19,5 +20,6 @@ import { ToastService } from 'src/app/shared/services/toast.service';
 export class DashboardComponent implements OnInit {
   private spinnerService = inject(SpinnerService);
   private toastService = inject(ToastService);
+  private dialogService = inject(DialogService);
   ngOnInit(): void {}
 }
