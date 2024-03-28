@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
+import { NavigationTabViewService } from 'src/app/shared/services/navigationTabView.services';
 
 @Component({
   selector: 'app-management',
@@ -9,4 +15,10 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   styleUrls: ['./management.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ManagementComponent {}
+export class ManagementComponent implements OnInit {
+  private navigationTabViewService = inject(NavigationTabViewService);
+
+  ngOnInit(): void {
+    this.navigationTabViewService.activeIndex(1);
+  }
+}

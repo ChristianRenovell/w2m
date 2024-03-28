@@ -31,14 +31,18 @@ export class DashboardComponent implements OnInit {
   superHeroes!: SuperHeroModel[];
 
   ngOnInit(): void {
+    this.spinnerService.showSpinner(true);
     this.SuperheroService.getAllSuperHeroes().subscribe((res) => {
+      this.ChangeDetectorRef.markForCheck();
       console.log(res);
       this.superHeroes = res;
-      this.ChangeDetectorRef.detectChanges();
+      this.spinnerService.showSpinner(false);
     });
 
-    this.SuperheroService.getAllSuperHeroeById(1).subscribe((res) =>
-      console.log(res)
-    );
+    this.SuperheroService.getAllSuperHeroeById(1).subscribe((res) => {
+      this.ChangeDetectorRef.markForCheck();
+      console.log(res);
+      this.spinnerService.showSpinner(false);
+    });
   }
 }

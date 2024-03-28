@@ -24,7 +24,6 @@ export class CardHeroComponent {
   private router = inject(Router);
 
   goTuHeroManagement(id: number) {
-    debugger;
     this.router.navigate(['dashboard/management/view/' + id]);
   }
 }
