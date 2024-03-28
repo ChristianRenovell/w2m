@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { TabViewModule } from 'primeng/tabview';
-import { ModeloTab } from '../../../core/models/modelTab';
+import { ModeloTab } from '../../../core/models/TabsModel';
 
 @Component({
   selector: 'app-tab-view',

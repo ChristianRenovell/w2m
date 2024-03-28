@@ -1,4 +1,4 @@
-import { ModeloTab } from '../../core/models/modelTab';
+import { ModeloTab } from '../../core/models/TabsModel';
 
 export const MAIN_TABS: ModeloTab[] = [
   { header: 'Dashboard', redirect: 'dashboard' },

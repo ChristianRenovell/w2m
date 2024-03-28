@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { TabViewComponent } from '../shared/components/tab-view/tab-view.component';
 import { MAIN_TABS } from '../shared/constants/modelTabs';
-import { ModeloTab } from '../core/models/modelTab';
+import { ModeloTab } from '../core/models/TabsModel';
 import { SpinnerComponent } from '../shared/components/spinner/spinner.component';
 import { ToastComponent } from '../shared/components/toast/toast.component';
 import { DialogComponent } from '../shared/components/dialog/dialog.component';
