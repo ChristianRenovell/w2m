@@ -10,10 +10,12 @@ import { SuperHeroModel } from 'src/app/core/api/superhero.model';
 import { Router } from '@angular/router';
 import { FullNamePipe } from '../../pipes/fullName.pipe';
 
+const primengModules = [CardModule, ButtonModule];
+
 @Component({
   selector: 'app-card-hero',
   standalone: true,
-  imports: [CardModule, ButtonModule, FullNamePipe],
+  imports: [FullNamePipe, ...primengModules],
   templateUrl: './card-hero.component.html',
   styleUrls: ['./card-hero.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
