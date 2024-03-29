@@ -2,12 +2,13 @@
 <div class="grid heroes-list">
     <div class="col-12 card ">
         <p-card> 
-            <div class="flex justify-content-start">
+            <div class="flex" style="justify-content: space-between;">
                 <span class="p-float-label">
                     <p-autoComplete inputId="float-label" [suggestions]="suggestions" (completeMethod)="predictiveSearch($event)" 
                     field="name" [(ngModel)]="seachHero" (ngModelChange)="searchHero()" (onSelect)="onPredictionSelect($event)"></p-autoComplete>
                     <label for="float-label">Search</label>
                 </span>
+                <button pButton pRipple label="New" (click)="redirectToNew()" class="p-button-success"></button>
             </div>
         </p-card>
     </div>

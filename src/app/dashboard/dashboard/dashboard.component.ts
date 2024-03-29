@@ -15,6 +15,7 @@ import { FormsModule } from '@angular/forms';
 import { CardModule } from 'primeng/card';
 import { CapitalizeFirstLetterPipe } from 'src/app/shared/pipes/capitalizeFirstLetter.pipe';
 import { ButtonModule } from 'primeng/button';
+import { Router } from '@angular/router';
 
 const DEBOUNCE_TIMER = 1000;
 
@@ -42,8 +43,8 @@ interface AutoCompleteCompleteEvent {
 export class DashboardComponent implements OnInit {
   public superHeroes!: SuperHeroModel[];
   public seachHero!: string;
-  private debounceTimer?: any = undefined;
   public suggestions?: any;
+  private debounceTimer?: any = undefined;
   //This variable is used to fake the predictive search because we are not working with a real api with this functionality.
   public superHeroesMockToSearch!: SuperHeroModel[];
 
@@ -52,6 +53,7 @@ export class DashboardComponent implements OnInit {
   private SuperheroService = inject(SuperheroService);
   private ChangeDetectorRef = inject(ChangeDetectorRef);
   private capitalizeFirstLetterPipe = inject(CapitalizeFirstLetterPipe);
+  private router = inject(Router);
 
   ngOnInit(): void {
     this.spinnerService.showSpinner(true);
@@ -92,5 +94,9 @@ export class DashboardComponent implements OnInit {
         );
       }, DEBOUNCE_TIMER);
     }
+  }
+
+  redirectToNew() {
+    this.router.navigate(['/dashboard/management/new']);
   }
 }
