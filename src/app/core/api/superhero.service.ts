@@ -41,7 +41,7 @@ export class SuperheroService {
     console.log(
       '- this is a simulation of an api call looking for a superhero.'
     );
-    return of(this.randomHeroMock(superHeroMock)).pipe(delay(1000));
+    return of(this.heroMockResult(superHeroMock, name)).pipe(delay(1000));
   }
 
   mapSuperHeroRequest(hero: any): SuperHeroModel {
@@ -58,21 +58,8 @@ export class SuperheroService {
     };
   }
 
-  randomHeroMock(array: any[]): any[] {
-    const numPositions = Math.min(
-      Math.floor(Math.random() * 5) + 1,
-      array.length
-    );
-    const chosenPositions: any[] = [];
-    const remainingIndices: number[] = Array.from(Array(array.length).keys());
-
-    for (let i = 0; i < numPositions; i++) {
-      const randomIndex = Math.floor(Math.random() * remainingIndices.length);
-      const position = remainingIndices[randomIndex];
-      chosenPositions.push(array[position]);
-      remainingIndices.splice(randomIndex, 1);
-    }
-
-    return chosenPositions;
+  heroMockResult(array: SuperHeroModel[], name: string): SuperHeroModel[] {
+    name = name.toLowerCase();
+    return array.filter((hero) => hero.name.toLowerCase().includes(name));
   }
 }

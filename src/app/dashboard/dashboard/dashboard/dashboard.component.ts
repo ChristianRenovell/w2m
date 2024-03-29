@@ -13,8 +13,14 @@ import { SpinnerService } from 'src/app/shared/services/spinner.service';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { FormsModule } from '@angular/forms';
 import { CardModule } from 'primeng/card';
+import { CapitalizeFirstLetterPipe } from 'src/app/shared/pipes/capitalizeFirstLetter.pipe';
 
 const DEBOUNCE_TIMER = 1000;
+
+interface AutoCompleteCompleteEvent {
+  originalEvent: Event;
+  query: string;
+}
 
 @Component({
   selector: 'app-dashboard',
@@ -26,26 +32,49 @@ const DEBOUNCE_TIMER = 1000;
     FormsModule,
     CardModule,
   ],
-  providers: [SuperheroService],
+  providers: [SuperheroService, CapitalizeFirstLetterPipe],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardComponent implements OnInit {
+  public superHeroes!: SuperHeroModel[];
+  public seachHero!: string;
+  private debounceTimer?: any = undefined;
+  public suggestions?: any;
+  //This variable is used to fake the predictive search because we are not working with a real api with this functionality.
+  public superHeroesMockToSearch!: SuperHeroModel[];
+
+  //Services
   private spinnerService = inject(SpinnerService);
   private SuperheroService = inject(SuperheroService);
   private ChangeDetectorRef = inject(ChangeDetectorRef);
-  superHeroes!: SuperHeroModel[];
-  seachHero!: string;
-  private debounceTimer?: any = undefined;
+  private capitalizeFirstLetterPipe = inject(CapitalizeFirstLetterPipe);
 
   ngOnInit(): void {
     this.spinnerService.showSpinner(true);
     this.SuperheroService.getAllSuperHeroes().subscribe((res) => {
       this.ChangeDetectorRef.markForCheck();
       this.superHeroes = res;
+      this.superHeroesMockToSearch = res;
       this.spinnerService.showSpinner(false);
     });
+  }
+
+  predictiveSearch(event: AutoCompleteCompleteEvent) {
+    this.suggestions = this.superHeroesMockToSearch
+      .filter((hero) =>
+        hero.name.toLowerCase().includes(event.query.toLowerCase())
+      )
+      .map((hero) => ({
+        ...hero,
+        name: this.capitalizeFirstLetterPipe.transform(hero.name),
+      }));
+  }
+
+  onPredictionSelect(selectedHero: any) {
+    this.seachHero = selectedHero.value.name;
+    this.searchHero();
   }
 
   searchHero() {

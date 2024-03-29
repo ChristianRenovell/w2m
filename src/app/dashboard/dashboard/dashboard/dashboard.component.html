@@ -4,7 +4,8 @@
         <p-card> 
             <div class="flex justify-content-start">
                 <span class="p-float-label">
-                    <p-autoComplete inputId="float-label" [(ngModel)]="seachHero" (ngModelChange)="searchHero()"></p-autoComplete>
+                    <p-autoComplete inputId="float-label" [suggestions]="suggestions" (completeMethod)="predictiveSearch($event)" 
+                    field="name" [(ngModel)]="seachHero" (ngModelChange)="searchHero()" (onSelect)="onPredictionSelect($event)"></p-autoComplete>
                     <label for="float-label">Search</label>
                 </span>
             </div>
