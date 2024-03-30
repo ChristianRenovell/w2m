@@ -46,7 +46,7 @@ export class ManagementComponent implements OnInit {
     [MODE_MANAGEMENT_TYPES.edit]: false,
   };
   public form!: FormGroup;
-  public heroId: string | undefined | null;
+  public heroId: any;
   private mode: string | null = null;
 
   private navigationTabViewService = inject(NavigationTabViewService);
@@ -89,8 +89,10 @@ export class ManagementComponent implements OnInit {
       const heroReq: SuperHeroModel = { ...this.form.value };
       if (this.modeFlags[MODE_MANAGEMENT_TYPES.new]) {
         this.createSeperHero(heroReq);
+      } else if (this.modeFlags[MODE_MANAGEMENT_TYPES.edit]) {
+        heroReq.id = parseInt(this.heroId);
+        this.editSeperHero(heroReq);
       }
-    } else if (this.modeFlags[MODE_MANAGEMENT_TYPES.edit]) {
     }
   }
 
@@ -139,6 +141,36 @@ export class ManagementComponent implements OnInit {
             severity: 'success',
             summary: 'Create',
             detail: 'superhero created with success!',
+          });
+        } else {
+          this.toastService.showToast({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'error when creating the seuperhero!',
+          });
+        }
+        this.spinnerService.showSpinner(false);
+      },
+      error: () => {
+        this.toastService.showToast({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'error when creating the seuperhero!',
+        });
+        this.spinnerService.showSpinner(false);
+      },
+    });
+  }
+
+  editSeperHero(heroReq: SuperHeroModel) {
+    this.spinnerService.showSpinner(true);
+    this.superheroService.editSeperHero(heroReq).subscribe({
+      next: (res) => {
+        if (res) {
+          this.toastService.showToast({
+            severity: 'success',
+            summary: 'Create',
+            detail: 'superhero edited with success!',
           });
         } else {
           this.toastService.showToast({

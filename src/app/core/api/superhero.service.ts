@@ -32,6 +32,12 @@ export class SuperheroService {
     return of(superHeroSingleMock).pipe(delay(1000));
   }
 
+  editSeperHero(req: SuperHeroModel) {
+    console.log(req);
+    console.log('- this is a simulation of an api call edit a superhero.');
+    return of(true).pipe(delay(1000));
+  }
+
   createSuperHeroe(req: SuperHeroModel) {
     console.log(req);
     console.log(
