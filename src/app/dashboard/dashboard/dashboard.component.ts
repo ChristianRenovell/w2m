@@ -14,17 +14,11 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 import { FormsModule } from '@angular/forms';
 import { CardModule } from 'primeng/card';
 import { CapitalizeFirstLetterPipe } from 'src/app/shared/pipes/capitalizeFirstLetter.pipe';
-import { ButtonModule } from 'primeng/button';
+
 import { Router } from '@angular/router';
+import { ButtonComponent } from 'src/app/shared/components/button/button.component';
 
 const DEBOUNCE_TIMER = 1000;
-
-const primengModules = [
-  AutoCompleteModule,
-  FormsModule,
-  CardModule,
-  ButtonModule,
-];
 
 interface AutoCompleteCompleteEvent {
   originalEvent: Event;
@@ -34,7 +28,14 @@ interface AutoCompleteCompleteEvent {
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, CardHeroComponent, ...primengModules],
+  imports: [
+    CommonModule,
+    CardHeroComponent,
+    AutoCompleteModule,
+    FormsModule,
+    CardModule,
+    ButtonComponent,
+  ],
   providers: [SuperheroService, CapitalizeFirstLetterPipe],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
