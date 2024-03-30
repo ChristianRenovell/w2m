@@ -2,32 +2,25 @@
     <div class="grid">
         <div class="col-12 form-content">
             <div>
-                <label class="ml-2">Name</label>
-                <app-input [type]="'text'" [control]="form.get('name')"></app-input>
+                <app-input [label]="'Name'" [type]="'text'" [control]="form.get('name')"></app-input>
             </div>
             <div>
-                <label class="ml-2">Full Name</label>
-                <app-input [type]="'text'" [control]="form.get('fullName')"></app-input>
+                <app-input [label]="'Full Name'" [type]="'text'" [control]="form.get('fullName')"></app-input>
             </div>
             <div>
-                <label class="ml-2">Height</label>
-                <app-input [type]="'text'" [control]="form.get('height')"></app-input>
+                <app-input [label]="'Height'" [type]="'text'" [control]="form.get('height')"></app-input>
             </div>
             <div>
-                <label class="ml-2">Weight</label>
-                <app-input [type]="'text'" [control]="form.get('weight')"></app-input>
+                <app-input [label]="'Weight'" [type]="'text'" [control]="form.get('weight')"></app-input>
             </div>
             <div>
-                <label class="ml-2">Power</label>
-                <app-input-number [inputId]="'withoutgrouping'" [control]="form.get('power')"></app-input-number>
+                <app-input-number [label]="'Power'" [inputId]="'withoutgrouping'" [control]="form.get('power')"></app-input-number>
             </div>
             <div>
-                <label class="ml-2">Strength</label>
-                <app-input-number [inputId]="'withoutgrouping'" [control]="form.get('strength')"></app-input-number>
+                <app-input-number [label]="'Strength'" [inputId]="'withoutgrouping'" [control]="form.get('strength')"></app-input-number>
             </div>
             <div>
-                <label class="ml-2">Speed</label>
-                <app-input-number  [inputId]="'withoutgrouping'" [control]="form.get('speed')"></app-input-number>
+                <app-input-number [label]="'Speed'"  [inputId]="'withoutgrouping'" [control]="form.get('speed')"></app-input-number>
             </div>
             <div class="col-12">
                 <app-button type="submit" [class]="'p-button-success'" [label]="'Save'" [severity]="'success'"></app-button>
