@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -34,6 +35,7 @@ const PARAM_ID = 'id';
     InputComponent,
     InputNumberComponent,
     ButtonComponent,
+    CommonModule,
   ],
   providers: [SuperheroService],
   templateUrl: './management.component.html',
@@ -41,14 +43,11 @@ const PARAM_ID = 'id';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ManagementComponent implements OnInit {
-  public modeFlags: { [key: string]: boolean } = {
-    [MODE_MANAGEMENT_TYPES.new]: false,
-    [MODE_MANAGEMENT_TYPES.edit]: false,
-  };
   public form!: FormGroup;
   public heroId: any;
+  public isEditMode: boolean = false;
+  public isNewMode: boolean = false;
   private mode: string | null = null;
-
   private navigationTabViewService = inject(NavigationTabViewService);
   private activatedRoute = inject(ActivatedRoute);
   private formBuilder = inject(FormBuilder);
@@ -63,12 +62,7 @@ export class ManagementComponent implements OnInit {
 
   ngOnInit(): void {
     this.createForm();
-    if (
-      this.modeFlags[MODE_MANAGEMENT_TYPES.edit] &&
-      this.activatedRoute.snapshot.paramMap.get(PARAM_ID)
-    ) {
-      this.recoverHero();
-    }
+    this.recoverHero();
   }
 
   createForm(): void {
@@ -87,9 +81,9 @@ export class ManagementComponent implements OnInit {
   submit(): void {
     if (this.form.valid) {
       const heroReq: SuperHeroModel = { ...this.form.value };
-      if (this.modeFlags[MODE_MANAGEMENT_TYPES.new]) {
+      if (this.isNewMode) {
         this.createSeperHero(heroReq);
-      } else if (this.modeFlags[MODE_MANAGEMENT_TYPES.edit]) {
+      } else if (this.isEditMode) {
         heroReq.id = parseInt(this.heroId);
         this.editSeperHero(heroReq);
       }
@@ -98,7 +92,7 @@ export class ManagementComponent implements OnInit {
 
   private recoverHero() {
     if (
-      this.modeFlags[MODE_MANAGEMENT_TYPES.edit] &&
+      this.isEditMode &&
       this.activatedRoute.snapshot.paramMap.get(PARAM_ID)
     ) {
       this.spinnerService.showSpinner(true);
@@ -194,9 +188,8 @@ export class ManagementComponent implements OnInit {
 
   private getModeManagment() {
     this.mode = this.activatedRoute.snapshot.paramMap.get(PARAM_MODE);
-    if (!this.mode || !(this.mode in MODE_MANAGEMENT_TYPES)) {
-      this.mode = MODE_MANAGEMENT_TYPES.new;
-    }
-    this.modeFlags[this.mode] = true;
+    this.isEditMode = this.mode === MODE_MANAGEMENT_TYPES.edit;
+    this.isNewMode =
+      this.mode === MODE_MANAGEMENT_TYPES.new || !this.isEditMode;
   }
 }
