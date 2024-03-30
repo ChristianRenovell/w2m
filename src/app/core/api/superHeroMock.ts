@@ -1,5 +1,18 @@
 import { SuperHeroModel } from './superhero.model';
 
+export const superHeroSingleMock: SuperHeroModel = {
+  id: 2,
+  name: 'Abe Sapien',
+  fullName: 'Abraham Sapien',
+  height: '191 cm',
+  weight: '65 kg',
+  power: 100,
+  strength: 28,
+  speed: 35,
+  images:
+    'https://cdn.jsdelivr.net/gh/akabab/superhero-api@0.3.0/api/images/sm/2-abe-sapien.jpg',
+};
+
 export const superHeroMock: SuperHeroModel[] = [
   {
     id: 1,

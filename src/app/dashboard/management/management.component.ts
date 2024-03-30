@@ -23,7 +23,8 @@ import { NavigationTabViewService } from 'src/app/shared/services/navigationTabV
 import { SpinnerService } from 'src/app/shared/services/spinner.service';
 import { ToastService } from 'src/app/shared/services/toast.service';
 
-const PARAM_NAME = 'mode';
+const PARAM_MODE = 'mode';
+const PARAM_ID = 'id';
 
 @Component({
   selector: 'app-management',
@@ -43,9 +44,9 @@ export class ManagementComponent implements OnInit {
   public modeFlags: { [key: string]: boolean } = {
     [MODE_MANAGEMENT_TYPES.new]: false,
     [MODE_MANAGEMENT_TYPES.edit]: false,
-    [MODE_MANAGEMENT_TYPES.view]: false,
   };
   public form!: FormGroup;
+  public heroId: string | undefined | null;
   private mode: string | null = null;
 
   private navigationTabViewService = inject(NavigationTabViewService);
@@ -62,9 +63,15 @@ export class ManagementComponent implements OnInit {
 
   ngOnInit(): void {
     this.createForm();
+    if (
+      this.modeFlags[MODE_MANAGEMENT_TYPES.edit] &&
+      this.activatedRoute.snapshot.paramMap.get(PARAM_ID)
+    ) {
+      this.recoverHero();
+    }
   }
 
-  createForm() {
+  createForm(): void {
     this.form = this.formBuilder.group({
       name: [null, Validators.required],
       fullName: [null, [Validators.required]],
@@ -77,42 +84,84 @@ export class ManagementComponent implements OnInit {
     });
   }
 
-  submit() {
+  submit(): void {
     if (this.form.valid) {
-      this.spinnerService.showSpinner(true);
       const heroReq: SuperHeroModel = { ...this.form.value };
-      this.superheroService.createSuperHeroe(heroReq).subscribe({
-        next: (res) => {
-          if (res) {
-            this.toastService.showToast({
-              severity: 'success',
-              summary: 'Create',
-              detail: 'superhero created with success!',
-            });
-          } else {
-            this.toastService.showToast({
-              severity: 'error',
-              summary: 'Error',
-              detail: 'error when creating the seuperhero!',
-            });
-          }
-          this.spinnerService.showSpinner(false);
-        },
-        error: () => {
+      if (this.modeFlags[MODE_MANAGEMENT_TYPES.new]) {
+        this.createSeperHero(heroReq);
+      }
+    } else if (this.modeFlags[MODE_MANAGEMENT_TYPES.edit]) {
+    }
+  }
+
+  private recoverHero() {
+    if (
+      this.modeFlags[MODE_MANAGEMENT_TYPES.edit] &&
+      this.activatedRoute.snapshot.paramMap.get(PARAM_ID)
+    ) {
+      this.spinnerService.showSpinner(true);
+      this.heroId = this.activatedRoute.snapshot.paramMap.get(PARAM_ID);
+      if (this.heroId) {
+        this.superheroService
+          .getSuperHeroeById(parseFloat(this.heroId))
+          .subscribe({
+            next: (res) => {
+              if (res) {
+                this.form.patchValue(res);
+              } else {
+                this.toastService.showToast({
+                  severity: 'error',
+                  summary: 'Error',
+                  detail: 'error when creating the seuperhero!',
+                });
+              }
+              this.spinnerService.showSpinner(false);
+            },
+            error: () => {
+              this.toastService.showToast({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'error when creating the seuperhero!',
+              });
+              this.spinnerService.showSpinner(false);
+            },
+          });
+      }
+    }
+  }
+
+  private createSeperHero(heroReq: SuperHeroModel): void {
+    this.spinnerService.showSpinner(true);
+    this.superheroService.createSuperHeroe(heroReq).subscribe({
+      next: (res) => {
+        if (res) {
+          this.toastService.showToast({
+            severity: 'success',
+            summary: 'Create',
+            detail: 'superhero created with success!',
+          });
+        } else {
           this.toastService.showToast({
             severity: 'error',
             summary: 'Error',
             detail: 'error when creating the seuperhero!',
           });
-          this.spinnerService.showSpinner(false);
-        },
-      });
-    } else {
-    }
+        }
+        this.spinnerService.showSpinner(false);
+      },
+      error: () => {
+        this.toastService.showToast({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'error when creating the seuperhero!',
+        });
+        this.spinnerService.showSpinner(false);
+      },
+    });
   }
 
   private getModeManagment() {
-    this.mode = this.activatedRoute.snapshot.paramMap.get(PARAM_NAME);
+    this.mode = this.activatedRoute.snapshot.paramMap.get(PARAM_MODE);
     if (!this.mode || !(this.mode in MODE_MANAGEMENT_TYPES)) {
       this.mode = MODE_MANAGEMENT_TYPES.new;
     }

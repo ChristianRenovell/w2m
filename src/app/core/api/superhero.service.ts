@@ -6,7 +6,7 @@ import { map } from 'rxjs/internal/operators/map';
 import { SuperHeroModel } from './superhero.model';
 import { of } from 'rxjs/internal/observable/of';
 import { delay } from 'rxjs/internal/operators/delay';
-import { superHeroMock } from './superHeroMock';
+import { superHeroMock, superHeroSingleMock } from './superHeroMock';
 
 @Injectable({
   providedIn: 'root',
@@ -27,13 +27,9 @@ export class SuperheroService {
   }
 
   getSuperHeroeById(id: number): Observable<SuperHeroModel> {
-    return this.http
-      .get<SuperHeroModel>(environments.superHeroApiUrl + `/id/${id}.json`)
-      .pipe(
-        map((response) => {
-          return this.mapSuperHeroRequest(response);
-        })
-      );
+    console.log(id);
+    console.log('- this is a simulation of an api call get a superhero by ID.');
+    return of(superHeroSingleMock).pipe(delay(1000));
   }
 
   createSuperHeroe(req: SuperHeroModel) {
