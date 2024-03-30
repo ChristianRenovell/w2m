@@ -29,8 +29,8 @@
                 <label class="ml-2">Speed</label>
                 <app-input-number  [inputId]="'withoutgrouping'" [control]="form.get('speed')"></app-input-number>
             </div>
-            <div >
-                <button type="submit">submit</button>
+            <div class="col-12">
+                <app-button type="submit" [class]="'p-button-success'" [label]="'Save'" [severity]="'success'"></app-button>
             </div>
         </div>
     </div>

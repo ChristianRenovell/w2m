@@ -11,6 +11,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { ButtonComponent } from 'src/app/shared/components/button/button.component';
 import {
   InputComponent,
   InputNumberComponent,
@@ -23,7 +24,12 @@ const PARAM_NAME = 'mode';
 @Component({
   selector: 'app-management',
   standalone: true,
-  imports: [ReactiveFormsModule, InputComponent, InputNumberComponent],
+  imports: [
+    ReactiveFormsModule,
+    InputComponent,
+    InputNumberComponent,
+    ButtonComponent,
+  ],
   templateUrl: './management.component.html',
   styleUrls: ['./management.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
