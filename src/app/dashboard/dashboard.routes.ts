@@ -18,14 +18,14 @@ export const DASHBOARD_ROUTES: Routes = [
       {
         path: 'management/:mode/:id',
         loadComponent: () =>
-          import('./management/management/management.component').then(
+          import('./management/management.component').then(
             (m) => m.ManagementComponent
           ),
       },
       {
-        path: 'management/new',
+        path: 'management/:mode',
         loadComponent: () =>
-          import('./management/management/management.component').then(
+          import('./management/management.component').then(
             (m) => m.ManagementComponent
           ),
       },
