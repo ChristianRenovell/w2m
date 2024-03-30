@@ -20,6 +20,8 @@ import {
 } from 'src/app/shared/components/input/imput.component';
 import { MODE_MANAGEMENT_TYPES } from 'src/app/shared/constants/modeManagmentTypes';
 import { NavigationTabViewService } from 'src/app/shared/services/navigationTabView.services';
+import { SpinnerService } from 'src/app/shared/services/spinner.service';
+import { ToastService } from 'src/app/shared/services/toast.service';
 
 const PARAM_NAME = 'mode';
 
@@ -50,6 +52,8 @@ export class ManagementComponent implements OnInit {
   private activatedRoute = inject(ActivatedRoute);
   private formBuilder = inject(FormBuilder);
   private superheroService = inject(SuperheroService);
+  private toastService = inject(ToastService);
+  private spinnerService = inject(SpinnerService);
 
   constructor() {
     this.navigationTabViewService.activeIndex(1);
@@ -62,25 +66,46 @@ export class ManagementComponent implements OnInit {
 
   createForm() {
     this.form = this.formBuilder.group({
-      name: ['', Validators.required],
-      fullName: ['', [Validators.required]],
-      height: ['', Validators.required],
-      weight: ['', Validators.required],
+      name: [null, Validators.required],
+      fullName: [null, [Validators.required]],
+      height: [null, Validators.required],
+      weight: [null, Validators.required],
       power: [null, Validators.required],
       strength: [null, Validators.required],
       speed: [null, Validators.required],
-      images: [''],
+      images: [null],
     });
   }
 
   submit() {
     if (this.form.valid) {
+      this.spinnerService.showSpinner(true);
       const heroReq: SuperHeroModel = { ...this.form.value };
       this.superheroService.createSuperHeroe(heroReq).subscribe({
         next: (res) => {
-          if (res) alert('ok');
+          if (res) {
+            this.toastService.showToast({
+              severity: 'success',
+              summary: 'Create',
+              detail: 'superhero created with success!',
+            });
+          } else {
+            this.toastService.showToast({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'error when creating the seuperhero!',
+            });
+          }
+          this.spinnerService.showSpinner(false);
         },
-        error: (err) => alert(err),
+        error: () => {
+          this.toastService.showToast({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'error when creating the seuperhero!',
+          });
+          this.spinnerService.showSpinner(false);
+        },
       });
     } else {
     }
