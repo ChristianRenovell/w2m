@@ -11,6 +11,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { SuperHeroModel } from 'src/app/core/api/superhero.model';
+import { SuperheroService } from 'src/app/core/api/superhero.service';
 import { ButtonComponent } from 'src/app/shared/components/button/button.component';
 import {
   InputComponent,
@@ -30,6 +32,7 @@ const PARAM_NAME = 'mode';
     InputNumberComponent,
     ButtonComponent,
   ],
+  providers: [SuperheroService],
   templateUrl: './management.component.html',
   styleUrls: ['./management.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -46,6 +49,7 @@ export class ManagementComponent implements OnInit {
   private navigationTabViewService = inject(NavigationTabViewService);
   private activatedRoute = inject(ActivatedRoute);
   private formBuilder = inject(FormBuilder);
+  private superheroService = inject(SuperheroService);
 
   constructor() {
     this.navigationTabViewService.activeIndex(1);
@@ -65,12 +69,21 @@ export class ManagementComponent implements OnInit {
       power: [null, Validators.required],
       strength: [null, Validators.required],
       speed: [null, Validators.required],
-      images: ['', Validators.required],
+      images: [''],
     });
   }
 
   submit() {
-    console.log(this.form.value);
+    if (this.form.valid) {
+      const heroReq: SuperHeroModel = { ...this.form.value };
+      this.superheroService.createSuperHeroe(heroReq).subscribe({
+        next: (res) => {
+          if (res) alert('ok');
+        },
+        error: (err) => alert(err),
+      });
+    } else {
+    }
   }
 
   private getModeManagment() {

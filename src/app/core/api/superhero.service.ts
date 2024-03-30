@@ -36,7 +36,15 @@ export class SuperheroService {
       );
   }
 
-  getSuperHeroeBySeach(name: string) {
+  createSuperHeroe(req: SuperHeroModel) {
+    console.log(req);
+    console.log(
+      '- this is a simulation of an api call create for a superhero.'
+    );
+    return of(true).pipe(delay(1000));
+  }
+
+  getSuperHeroeBySeach(name: string): Observable<SuperHeroModel[]> {
     console.log(name);
     console.log(
       '- this is a simulation of an api call looking for a superhero.'
