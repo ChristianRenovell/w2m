@@ -15,4 +15,23 @@ app-input-number {
   margin: 0.5em;
 }
 
+.img-content {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  align-items: center;
+  border-radius: 9px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  margin: 7px;
+}
+.img-content app-file-upload {
+  width: 75%;
+}
+
+.img-content img {
+  border-radius: 9px;
+  width: 25%;
+  margin-left: 0.5em;
+}
+
 

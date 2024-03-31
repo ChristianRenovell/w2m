@@ -52,6 +52,7 @@ export class ManagementComponent implements OnInit {
   public heroId: any;
   public isEditMode: boolean = false;
   public isNewMode: boolean = false;
+  public imageView?: string | null;
   private mode: string | null = null;
   private navigationTabViewService = inject(NavigationTabViewService);
   private activatedRoute = inject(ActivatedRoute);
@@ -96,17 +97,24 @@ export class ManagementComponent implements OnInit {
     }
   }
 
-  uploadFileEmitter(event: File[]) {
+  uploadFileEmitter(event: any[]): void {
     if (event.length > 0) {
+      this.imageView = event[0].objectURL.changingThisBreaksApplicationSecurity;
       this.form.get('images')?.setValue(event);
     }
   }
 
-  fileUploadSubjectEmitter(event: () => void) {
+  fileUploadSubjectEmitter(event: () => void): void {
     this.resetFileUploaded = event;
   }
 
-  private recoverHero() {
+  removeFileEmitter(event: boolean): void {
+    if (event) {
+      this.imageView = null;
+    }
+  }
+
+  private recoverHero(): void {
     if (
       this.isEditMode &&
       this.activatedRoute.snapshot.paramMap.get(PARAM_ID)
@@ -120,6 +128,7 @@ export class ManagementComponent implements OnInit {
             next: (res) => {
               if (res) {
                 this.form.patchValue(res);
+                this.imageView = this.form.get('images')?.value;
               } else {
                 this.toastService.showToast({
                   severity: 'error',
@@ -173,7 +182,7 @@ export class ManagementComponent implements OnInit {
     });
   }
 
-  editSeperHero(heroReq: SuperHeroModel) {
+  editSeperHero(heroReq: SuperHeroModel): void {
     this.spinnerService.showSpinner(true);
     this.superheroService.editSeperHero(heroReq).subscribe({
       next: (res) => {
@@ -204,7 +213,7 @@ export class ManagementComponent implements OnInit {
     });
   }
 
-  private getModeManagment() {
+  private getModeManagment(): void {
     this.mode = this.activatedRoute.snapshot.paramMap.get(PARAM_MODE);
     this.isEditMode = this.mode === MODE_MANAGEMENT_TYPES.edit;
     this.isNewMode =

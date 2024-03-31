@@ -23,13 +23,14 @@ import {
 })
 export class FileUploadComponent {
   @Output() uploadFileEmitter: EventEmitter<any> = new EventEmitter();
+  @Output() removeFileEmitter: EventEmitter<any> = new EventEmitter();
   @Output() fileUploadSubjectEmitter: EventEmitter<any> = new EventEmitter();
   @ViewChild(FileUpload) fileUpload!: FileUpload;
   uploadedFiles: any[] = [];
 
   constructor() {}
 
-  onUpload(event: FileUploadHandlerEvent) {
+  onUpload(event: FileUploadHandlerEvent): void {
     for (const file of event.files) {
       this.uploadedFiles.push(file);
     }
@@ -37,16 +38,17 @@ export class FileUploadComponent {
     this.fileUploadSubjectEmitter.emit(this.reset);
   }
 
-  onRemoveFile(event: FileRemoveEvent) {
+  onRemoveFile(event: FileRemoveEvent): void {
     const removedFileIndex = this.uploadedFiles.findIndex(
       (file) => file.name === event.file.name
     );
     if (removedFileIndex !== -1) {
       this.uploadedFiles.splice(removedFileIndex, 1);
+      this.removeFileEmitter.emit(true);
     }
   }
 
-  reset = () => {
+  reset = (): void => {
     if (this.fileUpload) {
       this.uploadedFiles = [];
       this.fileUpload.clear();
