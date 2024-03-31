@@ -33,10 +33,10 @@ import {
   RECOVER_ERROR,
 } from 'src/app/shared/constants/toastMessages';
 import { UppercasePipe } from 'src/app/shared/pipes/uppercase.pipe';
-import { DialogService } from 'src/app/shared/services/dialog.service';
-import { NavigationTabViewService } from 'src/app/shared/services/navigationTabView.services';
-import { SpinnerService } from 'src/app/shared/services/spinner.service';
-import { ToastService } from 'src/app/shared/services/toast.service';
+import { DialogService } from 'src/app/shared/components/dialog/dialog.service';
+import { NavigationTabViewService } from 'src/app/shared/components/tab-view/tab-view.services';
+import { SpinnerService } from 'src/app/shared/components/spinner/spinner.service';
+import { ToastService } from 'src/app/shared/components/toast/toast.service';
 
 const PARAM_MODE = 'mode';
 const PARAM_ID = 'id';

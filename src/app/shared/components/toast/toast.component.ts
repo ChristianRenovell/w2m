@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
-import { ToastService } from '../../services/toast.service';
+import { ToastService } from './toast.service';
 import { ToastModel } from 'src/app/core/models/toastModel';
 
 @Component({

@@ -9,7 +9,7 @@ import {
 import { SuperHeroModel } from 'src/app/core/api/superhero.model';
 import { SuperheroService } from 'src/app/core/api/superhero.service';
 import { CardHeroComponent } from 'src/app/shared/components/card-hero/card-hero.component';
-import { SpinnerService } from 'src/app/shared/services/spinner.service';
+import { SpinnerService } from 'src/app/shared/components/spinner/spinner.service';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { FormsModule } from '@angular/forms';
 import { CardModule } from 'primeng/card';
@@ -18,8 +18,8 @@ import { CapitalizeFirstLetterPipe } from 'src/app/shared/pipes/capitalizeFirstL
 import { Router } from '@angular/router';
 import { ButtonComponent } from 'src/app/shared/components/button/button.component';
 import { SEARCHE_ERROR } from 'src/app/shared/constants/toastMessages';
-import { ToastService } from 'src/app/shared/services/toast.service';
-import { NavigationTabViewService } from 'src/app/shared/services/navigationTabView.services';
+import { ToastService } from 'src/app/shared/components/toast/toast.service';
+import { NavigationTabViewService } from 'src/app/shared/components/tab-view/tab-view.services';
 
 const DEBOUNCE_TIMER = 1000;
 

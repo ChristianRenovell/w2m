@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { DialogService } from '../../services/dialog.service';
+import { DialogService } from './dialog.service';
 import { DialogModel } from 'src/app/core/models/dialogModel';
 
 @Component({

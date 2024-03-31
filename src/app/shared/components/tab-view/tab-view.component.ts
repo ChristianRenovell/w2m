@@ -10,7 +10,7 @@ import {
 import { Router } from '@angular/router';
 import { TabViewModule } from 'primeng/tabview';
 import { ModeloTab } from '../../../core/models/TabsModel';
-import { NavigationTabViewService } from '../../services/navigationTabView.services';
+import { NavigationTabViewService } from './tab-view.services';
 
 @Component({
   selector: 'app-tab-view',

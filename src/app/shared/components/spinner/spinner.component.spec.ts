@@ -1,8 +1,9 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { SpinnerComponent } from './spinner.component';
-import { SpinnerService } from '../../services/spinner.service';
+import { SpinnerService } from './spinner.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { of } from 'rxjs/internal/observable/of';
+import { take } from 'rxjs/internal/operators/take';
 
 describe('SpinnerComponent', () => {
   let component: SpinnerComponent;
@@ -49,4 +50,33 @@ describe('SpinnerComponent', () => {
   class MockChangeDetectorRef {
     detectChanges() {}
   }
+});
+
+//SERVICE
+describe('SpinnerService', () => {
+  let service: SpinnerService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [SpinnerService],
+    });
+    service = TestBed.inject(SpinnerService);
+  });
+
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+
+  it('should emit spinner value', () => {
+    const showSpinnerValue = true;
+
+    service
+      .spinnerObservable()
+      .pipe(take(1))
+      .subscribe((value) => {
+        expect(value).toEqual(showSpinnerValue);
+      });
+    // Call showSpinner method to emit spinner value
+    service.showSpinner(showSpinnerValue);
+  });
 });

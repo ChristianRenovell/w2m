@@ -1,9 +1,11 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { TabViewComponent } from './tab-view.component';
 import { Router } from '@angular/router';
-import { NavigationTabViewService } from '../../services/navigationTabView.services';
 import { ChangeDetectorRef } from '@angular/core';
 import { of } from 'rxjs/internal/observable/of';
+
+import { NavigationTabViewService } from './tab-view.services';
+import { take } from 'rxjs/internal/operators/take';
 
 describe('TabViewComponent', () => {
   let component: TabViewComponent;
@@ -73,4 +75,33 @@ describe('TabViewComponent', () => {
   class MockChangeDetectorRef {
     markForCheck() {}
   }
+});
+
+//SERVICE
+describe('NavigationTabViewService', () => {
+  let service: NavigationTabViewService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [NavigationTabViewService],
+    });
+    service = TestBed.inject(NavigationTabViewService);
+  });
+
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+
+  it('should emit active index', () => {
+    const activeIndex = 1;
+
+    service
+      .navigationTabViewObservable()
+      .pipe(take(1))
+      .subscribe((index) => {
+        expect(index).toEqual(activeIndex);
+      });
+
+    service.activeIndex(activeIndex);
+  });
 });

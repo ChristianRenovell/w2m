@@ -6,7 +6,7 @@ import {
   inject,
 } from '@angular/core';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { SpinnerService } from '../../services/spinner.service';
+import { SpinnerService } from './spinner.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
