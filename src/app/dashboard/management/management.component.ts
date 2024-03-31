@@ -29,6 +29,7 @@ import {
   DELETE_SUCCESS,
   EDIT_ERROR,
   EDIT_SUCCESS,
+  INVALID_FORM,
   RECOVER_ERROR,
 } from 'src/app/shared/constants/toastMessages';
 import { UppercasePipe } from 'src/app/shared/pipes/uppercase.pipe';
@@ -99,13 +100,14 @@ export class ManagementComponent implements OnInit {
   submit(): void {
     if (this.form.valid) {
       const heroReq: SuperHeroModel = { ...this.form.value };
+      heroReq.images = this.imageView as string;
       if (this.isNewMode) {
         this.createSeperHero(heroReq);
       } else if (this.isEditMode) {
         heroReq.id = parseInt(this.heroId);
         this.editSeperHero(heroReq);
       }
-    }
+    } else this.toastService.showToast(INVALID_FORM);
   }
 
   uploadFileEmitter(event: any[]): void {

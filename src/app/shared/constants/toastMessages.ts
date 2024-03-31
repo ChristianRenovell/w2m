@@ -47,3 +47,9 @@ export const SEARCHE_ERROR: ToastModel = {
   summary: 'Error',
   detail: 'error when search the seuperheroes!',
 };
+
+export const INVALID_FORM: ToastModel = {
+  severity: 'error',
+  summary: 'Error',
+  detail: 'Check all required fields',
+};

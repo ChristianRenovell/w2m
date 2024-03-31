@@ -19,6 +19,7 @@ import { Router } from '@angular/router';
 import { ButtonComponent } from 'src/app/shared/components/button/button.component';
 import { SEARCHE_ERROR } from 'src/app/shared/constants/toastMessages';
 import { ToastService } from 'src/app/shared/services/toast.service';
+import { NavigationTabViewService } from 'src/app/shared/services/navigationTabView.services';
 
 const DEBOUNCE_TIMER = 1000;
 
@@ -58,6 +59,11 @@ export class DashboardComponent implements OnInit {
   private capitalizeFirstLetterPipe = inject(CapitalizeFirstLetterPipe);
   private router = inject(Router);
   private toastService = inject(ToastService);
+  private navigationTabViewService = inject(NavigationTabViewService);
+
+  constructor() {
+    this.navigationTabViewService.activeIndex(0);
+  }
 
   ngOnInit(): void {
     this.spinnerService.showSpinner(true);
