@@ -24,6 +24,7 @@ import {
   InputNumberComponent,
 } from 'src/app/shared/components/input/imput.component';
 import { MODE_MANAGEMENT_TYPES } from 'src/app/shared/constants/modeManagmentTypes';
+import { UppercasePipe } from 'src/app/shared/pipes/uppercase.pipe';
 import { NavigationTabViewService } from 'src/app/shared/services/navigationTabView.services';
 import { SpinnerService } from 'src/app/shared/services/spinner.service';
 import { ToastService } from 'src/app/shared/services/toast.service';
@@ -42,7 +43,7 @@ const PARAM_ID = 'id';
     CommonModule,
     FileUploadComponent,
   ],
-  providers: [SuperheroService],
+  providers: [SuperheroService, UppercasePipe],
   templateUrl: './management.component.html',
   styleUrls: ['./management.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
