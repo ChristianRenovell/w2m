@@ -17,6 +17,8 @@ import { CapitalizeFirstLetterPipe } from 'src/app/shared/pipes/capitalizeFirstL
 
 import { Router } from '@angular/router';
 import { ButtonComponent } from 'src/app/shared/components/button/button.component';
+import { SEARCHE_ERROR } from 'src/app/shared/constants/toastMessages';
+import { ToastService } from 'src/app/shared/services/toast.service';
 
 const DEBOUNCE_TIMER = 1000;
 
@@ -55,14 +57,26 @@ export class DashboardComponent implements OnInit {
   private ChangeDetectorRef = inject(ChangeDetectorRef);
   private capitalizeFirstLetterPipe = inject(CapitalizeFirstLetterPipe);
   private router = inject(Router);
+  private toastService = inject(ToastService);
 
   ngOnInit(): void {
     this.spinnerService.showSpinner(true);
-    this.SuperheroService.getAllSuperHeroes().subscribe((res) => {
-      this.ChangeDetectorRef.markForCheck();
-      this.superHeroes = res;
-      this.superHeroesMockToSearch = res;
-      this.spinnerService.showSpinner(false);
+    this.SuperheroService.getAllSuperHeroes().subscribe({
+      next: (res) => {
+        if (res) {
+          this.ChangeDetectorRef.markForCheck();
+          this.superHeroes = res;
+          this.superHeroesMockToSearch = res;
+          this.spinnerService.showSpinner(false);
+        } else {
+          this.toastService.showToast(SEARCHE_ERROR);
+        }
+        this.spinnerService.showSpinner(false);
+      },
+      error: () => {
+        this.toastService.showToast(SEARCHE_ERROR);
+        this.spinnerService.showSpinner(false);
+      },
     });
   }
 
@@ -87,12 +101,22 @@ export class DashboardComponent implements OnInit {
       if (this.debounceTimer) clearTimeout(this.debounceTimer);
       // eslint-disable-next-line angular/timeout-service
       this.debounceTimer = setTimeout(() => {
-        this.SuperheroService.getSuperHeroeBySeach(this.seachHero).subscribe(
-          (res) => {
-            this.ChangeDetectorRef.markForCheck();
-            this.superHeroes = res;
-          }
-        );
+        this.spinnerService.showSpinner(true);
+        this.SuperheroService.getSuperHeroeBySeach(this.seachHero).subscribe({
+          next: (res) => {
+            if (res) {
+              this.ChangeDetectorRef.markForCheck();
+              this.superHeroes = res;
+            } else {
+              this.toastService.showToast(SEARCHE_ERROR);
+            }
+            this.spinnerService.showSpinner(false);
+          },
+          error: () => {
+            this.toastService.showToast(SEARCHE_ERROR);
+            this.spinnerService.showSpinner(false);
+          },
+        });
       }, DEBOUNCE_TIMER);
     }
   }
