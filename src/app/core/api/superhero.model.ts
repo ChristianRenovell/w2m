@@ -7,7 +7,7 @@ export interface SuperHeroModel {
   power: number;
   strength: number;
   speed: number;
-  images: string;
+  images: File | string;
 }
 
 export interface ReqSuperHeroModel {

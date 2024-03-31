@@ -153,7 +153,7 @@ export class ManagementComponent implements OnInit {
     }
   }
 
-  private createSeperHero(heroReq: ReqSuperHeroModel): void {
+  private createSeperHero(heroReq: SuperHeroModel): void {
     this.spinnerService.showSpinner(true);
     this.superheroService.createSuperHeroe(heroReq).subscribe({
       next: (res) => {

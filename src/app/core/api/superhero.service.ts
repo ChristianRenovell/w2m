@@ -1,49 +1,59 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
-import { environments } from 'src/environment/environment';
-import { map } from 'rxjs/internal/operators/map';
+// import { environments } from 'src/environment/environment';
+// import { map } from 'rxjs/internal/operators/map';
 import { ReqSuperHeroModel, SuperHeroModel } from './superhero.model';
 import { of } from 'rxjs/internal/observable/of';
 import { delay } from 'rxjs/internal/operators/delay';
-import { superHeroMock, superHeroSingleMock } from './superHeroMock';
+import { superHeroMock } from './superHeroMock';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SuperheroService {
   private http = inject(HttpClient);
+  private superHeroMock: SuperHeroModel[] = superHeroMock;
+
+  // INFO: Example of a call to a real api and mapping of received data
+  // getAllSuperHeroes(): Observable<SuperHeroModel[]> {
+  //   return this.http
+  //     .get<SuperHeroModel[]>(environments.superHeroApiUrl + '/all.json')
+  //     .pipe(
+  //       map((response) => {
+  //         return response.map((hero: any) => {
+  //           return this.mapSuperHeroRequest(hero);
+  //         });
+  //       })
+  //     );
+  // }
 
   getAllSuperHeroes(): Observable<SuperHeroModel[]> {
-    return this.http
-      .get<SuperHeroModel[]>(environments.superHeroApiUrl + '/all.json')
-      .pipe(
-        map((response) => {
-          return response.map((hero: any) => {
-            return this.mapSuperHeroRequest(hero);
-          });
-        })
-      );
+    console.log('- this is a simulation of an api call get a superheroes.');
+    return of(this.superHeroMock).pipe(delay(1000));
   }
 
-  getSuperHeroeById(id: number): Observable<SuperHeroModel> {
+  getSuperHeroeById(id: number): Observable<SuperHeroModel | SuperHeroModel[]> {
     console.log(id);
     console.log('- this is a simulation of an api call get a superhero by ID.');
-    return of(superHeroSingleMock).pipe(delay(1000));
+    const result = this.superHeroMock.find((hero) => hero.id === id);
+    return of(result ? result : []).pipe(delay(1000));
   }
 
-  editSeperHero(req: SuperHeroModel) {
+  editSeperHero(req: SuperHeroModel): Observable<SuperHeroModel[]> {
     console.log(req);
     console.log('- this is a simulation of an api call edit a superhero.');
-    return of(true).pipe(delay(1000));
+    return of(this.heroMockEdit(req)).pipe(delay(1000));
   }
 
-  createSuperHeroe(req: ReqSuperHeroModel) {
+  createSuperHeroe(req: SuperHeroModel): Observable<SuperHeroModel[]> {
     console.log(req);
     console.log(
       '- this is a simulation of an api call create for a superhero.'
     );
-    return of(true).pipe(delay(1000));
+    req.id = this.superHeroMock.length + 1;
+    this.superHeroMock.unshift(req);
+    return of(this.superHeroMock).pipe(delay(1000));
   }
 
   getSuperHeroeBySeach(name: string): Observable<SuperHeroModel[]> {
@@ -51,7 +61,7 @@ export class SuperheroService {
     console.log(
       '- this is a simulation of an api call looking for a superhero.'
     );
-    return of(this.heroMockResult(superHeroMock, name)).pipe(delay(1000));
+    return of(this.heroMockResult(this.superHeroMock, name)).pipe(delay(1000));
   }
 
   mapSuperHeroRequest(hero: any): SuperHeroModel {
@@ -71,5 +81,15 @@ export class SuperheroService {
   heroMockResult(array: SuperHeroModel[], name: string): SuperHeroModel[] {
     name = name.toLowerCase();
     return array.filter((hero) => hero.name.toLowerCase().includes(name));
+  }
+
+  heroMockEdit(newDate: SuperHeroModel): SuperHeroModel[] {
+    const indexHeroUpdate = this.superHeroMock.findIndex(
+      (hero) => hero.id === newDate.id
+    );
+    if (indexHeroUpdate !== -1) {
+      this.superHeroMock[indexHeroUpdate] = newDate;
+    }
+    return this.superHeroMock;
   }
 }
