@@ -11,7 +11,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   ReqSuperHeroModel,
   SuperHeroModel,
@@ -60,6 +60,7 @@ export class ManagementComponent implements OnInit {
   private superheroService = inject(SuperheroService);
   private toastService = inject(ToastService);
   private spinnerService = inject(SpinnerService);
+  private router = inject(Router);
   private resetFileUploaded!: () => void;
 
   constructor() {
@@ -162,6 +163,7 @@ export class ManagementComponent implements OnInit {
             summary: 'Create',
             detail: 'superhero created with success!',
           });
+          this.router.navigate(['dashboard']);
         } else {
           this.toastService.showToast({
             severity: 'error',
@@ -193,6 +195,7 @@ export class ManagementComponent implements OnInit {
               summary: 'Create',
               detail: 'superhero edited with success!',
             });
+          this.router.navigate(['dashboard']);
         } else {
           this.toastService.showToast({
             severity: 'error',
