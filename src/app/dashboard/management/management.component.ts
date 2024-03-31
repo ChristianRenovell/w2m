@@ -105,7 +105,7 @@ export class ManagementComponent implements OnInit {
         this.createSeperHero(heroReq);
       } else if (this.isEditMode) {
         heroReq.id = parseInt(this.heroId);
-        this.editSeperHero(heroReq);
+        this.editSuperHero(heroReq);
       }
     } else this.toastService.showToast(INVALID_FORM);
   }
@@ -127,7 +127,7 @@ export class ManagementComponent implements OnInit {
     }
   }
 
-  editSeperHero(heroReq: SuperHeroModel): void {
+  editSuperHero(heroReq: SuperHeroModel): void {
     this.spinnerService.showSpinner(true);
     this.superheroService.editSeperHero(heroReq).subscribe({
       next: (res) => {
