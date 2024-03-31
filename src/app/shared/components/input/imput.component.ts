@@ -9,17 +9,19 @@ import {
 import { ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { UppercasePipe } from '../../pipes/uppercase.pipe';
 
 @Component({
   selector: 'app-input',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, InputTextModule],
+  providers: [UppercasePipe],
   template: ` <span class="p-float-label">
     <input
       type="{{ type }}"
-      [value]="control"
+      [formControl]="control"
+      [value]="upperCase ? (value | uppercase) : value"
       pInputText
-      (input)="onInputChange($event)"
     />
     <label for="float-label">{{ label }}</label>
   </span>`,
@@ -29,17 +31,25 @@ import { InputNumberModule } from 'primeng/inputnumber';
 export class InputComponent {
   @Input() type?: string = 'text';
   @Input() control!: any;
+  @Input() value!: any;
   @Input() label!: string;
   @Input() upperCase: boolean = false;
   @Output() inputChange: EventEmitter<any> = new EventEmitter<any>();
-  onInputChange(event: Event) {
-    if (this.upperCase) {
-      const inputElement = event.target as HTMLInputElement;
-      const value = inputElement.value.toUpperCase();
-      this.control = value;
-      this.inputChange.emit(event);
-    }
-  }
+
+  //INFO:
+  //Case in which, in addition to displaying the property in uppercase letters, that value is also retrieved in uppercase letters for processing.
+
+  // Add (input)="onInputChange($event)" to <input />
+
+  // Uncomment the following function.
+  // onInputChange(event: Event) {
+  //   if (this.upperCase) {
+  //     const inputElement = event.target as HTMLInputElement;
+  //     const value = inputElement.value.toUpperCase();
+  //     this.control.setValue(value, { emitEvent: false });
+  //     this.inputChange.emit(event);
+  //   }
+  // }
 }
 
 @Component({

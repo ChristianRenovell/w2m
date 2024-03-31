@@ -2,16 +2,16 @@
     <div class="grid">
         <div class="col-12 form-content">
             <div>
-                <app-input [label]="'Name'" [type]="'text'" [control]="form.get('name')?.value | uppercase" [upperCase]="true"></app-input>
+                <app-input [label]="'Name'" [type]="'text'" [control]="form.get('name')" [value]="form.get('name')?.value" [upperCase]="true"></app-input>
             </div>
             <div>
-                <app-input [label]="'Full Name'" [type]="'text'" [control]="form.get('fullName')?.value"></app-input>
+                <app-input [label]="'Full Name'" [type]="'text'" [control]="form.get('fullName')" [value]="form.get('fullName')?.value"></app-input>
             </div>
             <div>
-                <app-input [label]="'Height'" [type]="'text'" [control]="form.get('height')?.value"></app-input>
+                <app-input [label]="'Height'" [type]="'text'" [control]="form.get('height')" [value]="form.get('height')?.value"></app-input>
             </div>
             <div>
-                <app-input [label]="'Weight'" [type]="'text'" [control]="form.get('weight')?.value"></app-input>
+                <app-input [label]="'Weight'" [type]="'text'" [control]="form.get('weight')" [value]="form.get('weight')?.value"></app-input>
             </div>
             <div>
                 <app-input-number [label]="'Power'" [inputId]="'withoutgrouping'" [control]="form.get('power')"></app-input-number>
