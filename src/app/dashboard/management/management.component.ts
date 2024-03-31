@@ -12,9 +12,13 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { SuperHeroModel } from 'src/app/core/api/superhero.model';
+import {
+  ReqSuperHeroModel,
+  SuperHeroModel,
+} from 'src/app/core/api/superhero.model';
 import { SuperheroService } from 'src/app/core/api/superhero.service';
 import { ButtonComponent } from 'src/app/shared/components/button/button.component';
+import { FileUploadComponent } from 'src/app/shared/components/fileUpload/fileUpload.component';
 import {
   InputComponent,
   InputNumberComponent,
@@ -36,6 +40,7 @@ const PARAM_ID = 'id';
     InputNumberComponent,
     ButtonComponent,
     CommonModule,
+    FileUploadComponent,
   ],
   providers: [SuperheroService],
   templateUrl: './management.component.html',
@@ -54,6 +59,7 @@ export class ManagementComponent implements OnInit {
   private superheroService = inject(SuperheroService);
   private toastService = inject(ToastService);
   private spinnerService = inject(SpinnerService);
+  private resetFileUploaded!: () => void;
 
   constructor() {
     this.navigationTabViewService.activeIndex(1);
@@ -74,7 +80,7 @@ export class ManagementComponent implements OnInit {
       power: [null, Validators.required],
       strength: [null, Validators.required],
       speed: [null, Validators.required],
-      images: [null],
+      images: [null, Validators.required],
     });
   }
 
@@ -88,6 +94,16 @@ export class ManagementComponent implements OnInit {
         this.editSeperHero(heroReq);
       }
     }
+  }
+
+  uploadFileEmitter(event: File[]) {
+    if (event.length > 0) {
+      this.form.get('images')?.setValue(event);
+    }
+  }
+
+  fileUploadSubjectEmitter(event: () => void) {
+    this.resetFileUploaded = event;
   }
 
   private recoverHero() {
@@ -126,11 +142,12 @@ export class ManagementComponent implements OnInit {
     }
   }
 
-  private createSeperHero(heroReq: SuperHeroModel): void {
+  private createSeperHero(heroReq: ReqSuperHeroModel): void {
     this.spinnerService.showSpinner(true);
     this.superheroService.createSuperHeroe(heroReq).subscribe({
       next: (res) => {
         if (res) {
+          this.resetFileUploaded();
           this.toastService.showToast({
             severity: 'success',
             summary: 'Create',
@@ -161,11 +178,12 @@ export class ManagementComponent implements OnInit {
     this.superheroService.editSeperHero(heroReq).subscribe({
       next: (res) => {
         if (res) {
-          this.toastService.showToast({
-            severity: 'success',
-            summary: 'Create',
-            detail: 'superhero edited with success!',
-          });
+          if (this)
+            this.toastService.showToast({
+              severity: 'success',
+              summary: 'Create',
+              detail: 'superhero edited with success!',
+            });
         } else {
           this.toastService.showToast({
             severity: 'error',

@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
 import { environments } from 'src/environment/environment';
 import { map } from 'rxjs/internal/operators/map';
-import { SuperHeroModel } from './superhero.model';
+import { ReqSuperHeroModel, SuperHeroModel } from './superhero.model';
 import { of } from 'rxjs/internal/observable/of';
 import { delay } from 'rxjs/internal/operators/delay';
 import { superHeroMock, superHeroSingleMock } from './superHeroMock';
@@ -38,7 +38,7 @@ export class SuperheroService {
     return of(true).pipe(delay(1000));
   }
 
-  createSuperHeroe(req: SuperHeroModel) {
+  createSuperHeroe(req: ReqSuperHeroModel) {
     console.log(req);
     console.log(
       '- this is a simulation of an api call create for a superhero.'
