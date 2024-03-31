@@ -98,6 +98,7 @@ export class ManagementComponent implements OnInit {
   }
 
   submit(): void {
+    console.log(this.form);
     if (this.form.valid) {
       const heroReq: SuperHeroModel = { ...this.form.value };
       heroReq.images = this.imageView as string;
@@ -124,6 +125,8 @@ export class ManagementComponent implements OnInit {
   removeFileEmitter(event: boolean): void {
     if (event) {
       this.imageView = null;
+      this.form.get('images')?.setValue(null);
+      this.form.get('images')?.updateValueAndValidity();
     }
   }
 
