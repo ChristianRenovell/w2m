@@ -12,10 +12,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  ReqSuperHeroModel,
-  SuperHeroModel,
-} from 'src/app/core/api/superhero.model';
+import { SuperHeroModel } from 'src/app/core/api/superhero.model';
 import { SuperheroService } from 'src/app/core/api/superhero.service';
 import { ButtonComponent } from 'src/app/shared/components/button/button.component';
 import { FileUploadComponent } from 'src/app/shared/components/fileUpload/fileUpload.component';
@@ -23,8 +20,10 @@ import {
   InputComponent,
   InputNumberComponent,
 } from 'src/app/shared/components/input/imput.component';
+import { DELETE_DIALOG } from 'src/app/shared/constants/dialogMessages';
 import { MODE_MANAGEMENT_TYPES } from 'src/app/shared/constants/modeManagmentTypes';
 import { UppercasePipe } from 'src/app/shared/pipes/uppercase.pipe';
+import { DialogService } from 'src/app/shared/services/dialog.service';
 import { NavigationTabViewService } from 'src/app/shared/services/navigationTabView.services';
 import { SpinnerService } from 'src/app/shared/services/spinner.service';
 import { ToastService } from 'src/app/shared/services/toast.service';
@@ -61,6 +60,7 @@ export class ManagementComponent implements OnInit {
   private superheroService = inject(SuperheroService);
   private toastService = inject(ToastService);
   private spinnerService = inject(SpinnerService);
+  private dialogService = inject(DialogService);
   private router = inject(Router);
   private resetFileUploaded!: () => void;
 
@@ -116,6 +116,72 @@ export class ManagementComponent implements OnInit {
     }
   }
 
+  editSeperHero(heroReq: SuperHeroModel): void {
+    this.spinnerService.showSpinner(true);
+    this.superheroService.editSeperHero(heroReq).subscribe({
+      next: (res) => {
+        if (res) {
+          if (this)
+            this.toastService.showToast({
+              severity: 'success',
+              summary: 'Create',
+              detail: 'superhero edited with success!',
+            });
+          this.router.navigate(['dashboard']);
+        } else {
+          this.toastService.showToast({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'error when creating the seuperhero!',
+          });
+        }
+        this.spinnerService.showSpinner(false);
+      },
+      error: () => {
+        this.toastService.showToast({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'error when creating the seuperhero!',
+        });
+        this.spinnerService.showSpinner(false);
+      },
+    });
+  }
+
+  openModalDialog(): void {
+    this.dialogService.showDialog(DELETE_DIALOG).subscribe((res: boolean) => {
+      if (res) {
+        this.superheroService.deleteSuperHero(this.heroId).subscribe({
+          next: (res) => {
+            if (res) {
+              this.toastService.showToast({
+                severity: 'success',
+                summary: 'Create',
+                detail: 'superhero created with success!',
+              });
+              this.router.navigate(['dashboard']);
+            } else {
+              this.toastService.showToast({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'error when creating the seuperhero!',
+              });
+            }
+            this.spinnerService.showSpinner(false);
+          },
+          error: () => {
+            this.toastService.showToast({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'error when creating the seuperhero!',
+            });
+            this.spinnerService.showSpinner(false);
+          },
+        });
+      }
+    });
+  }
+
   private recoverHero(): void {
     if (
       this.isEditMode &&
@@ -164,38 +230,6 @@ export class ManagementComponent implements OnInit {
             summary: 'Create',
             detail: 'superhero created with success!',
           });
-          this.router.navigate(['dashboard']);
-        } else {
-          this.toastService.showToast({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'error when creating the seuperhero!',
-          });
-        }
-        this.spinnerService.showSpinner(false);
-      },
-      error: () => {
-        this.toastService.showToast({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'error when creating the seuperhero!',
-        });
-        this.spinnerService.showSpinner(false);
-      },
-    });
-  }
-
-  editSeperHero(heroReq: SuperHeroModel): void {
-    this.spinnerService.showSpinner(true);
-    this.superheroService.editSeperHero(heroReq).subscribe({
-      next: (res) => {
-        if (res) {
-          if (this)
-            this.toastService.showToast({
-              severity: 'success',
-              summary: 'Create',
-              detail: 'superhero edited with success!',
-            });
           this.router.navigate(['dashboard']);
         } else {
           this.toastService.showToast({

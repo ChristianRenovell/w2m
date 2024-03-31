@@ -7,7 +7,7 @@ import { ButtonModule } from 'primeng/button';
   standalone: true,
   imports: [CommonModule, ButtonModule],
   template: `<p-button
-    type="submit"
+    type="{{ type }}"
     label="{{ label }}"
     severity="{{ severity }}"
   ></p-button>`,
@@ -17,5 +17,5 @@ import { ButtonModule } from 'primeng/button';
 export class ButtonComponent {
   @Input() label: string = 'Label';
   @Input() severity: string = 'primary';
-  @Input() type: string = '';
+  @Input() type: string = 'button';
 }

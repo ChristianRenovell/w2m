@@ -34,4 +34,9 @@ app-input-number {
   margin-left: 0.5em;
 }
 
+.btn-content {
+  display: flex;
+  justify-content: space-between;
+}
+
 

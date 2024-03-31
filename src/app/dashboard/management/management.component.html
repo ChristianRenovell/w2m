@@ -26,8 +26,9 @@
                 <app-file-upload (uploadFileEmitter)="uploadFileEmitter($event)" (fileUploadSubjectEmitter)="fileUploadSubjectEmitter($event)" (removeFileEmitter)="removeFileEmitter($event)"></app-file-upload>
                 <img *ngIf="imageView" src="{{imageView}}" alt="Hero image"/>
             </div>
-            <div class="col-12">
+            <div class="col-12 btn-content">
                 <app-button [type]="'submit'" [class]="'p-button-success'" [label]=" isNewMode ? 'Save' : 'Edit'" [severity]="'success'"></app-button>
+                <app-button [class]="'p-button-success'" (click)="openModalDialog()" [label]="'Delete'" [severity]="'danger'"></app-button>
             </div>
         </div>
     </div>

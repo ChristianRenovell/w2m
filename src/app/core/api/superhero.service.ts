@@ -56,6 +56,18 @@ export class SuperheroService {
     return of(this.superHeroMock).pipe(delay(1000));
   }
 
+  deleteSuperHero(id: string): Observable<boolean> {
+    const indice = this.superHeroMock.findIndex(
+      (superheroe) => superheroe.id === parseInt(id)
+    );
+    if (indice !== -1) {
+      this.superHeroMock.splice(indice, 1);
+      return of(true).pipe(delay(1000));
+    } else {
+      return of(false).pipe(delay(1000));
+    }
+  }
+
   getSuperHeroeBySeach(name: string): Observable<SuperHeroModel[]> {
     console.log(name);
     console.log(
