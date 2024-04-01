@@ -151,6 +151,7 @@ export class ManagementComponent implements OnInit {
   openModalDialog(): void {
     this.dialogService.showDialog(DELETE_DIALOG).subscribe((res: boolean) => {
       if (res) {
+        this.spinnerService.showSpinner(true);
         this.superheroService.deleteSuperHero(this.heroId).subscribe({
           next: (res) => {
             if (res) {

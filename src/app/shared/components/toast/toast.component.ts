@@ -24,6 +24,7 @@ export class ToastComponent implements OnInit {
 
   ngOnInit(): void {
     this.toastService.toastObservable().subscribe((res: ToastModel) => {
+      this.messageService.clear();
       this.messageService.add(res);
     });
   }
