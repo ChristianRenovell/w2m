@@ -1,3 +1,11 @@
+Angular Project for Technical Test
+
+This project is developed using Angular and follows an architecture designed with scalability in mind. PrimeNG components are encapsulated into their own components to achieve better decoupling from the application logic. Additionally, a caching system is implemented for API calls, and Jasmine is used for unit testing. API calls are mocked to facilitate development and testing.
+
+# Node:
+
+Node.js: Version 18.14.2
+
 # W2mHeroes
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.1.1.
