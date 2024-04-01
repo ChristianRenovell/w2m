@@ -1,9 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
-// import { environments } from 'src/environment/environment';
-// import { map } from 'rxjs/internal/operators/map';
-import { ReqSuperHeroModel, SuperHeroModel } from './superhero.model';
+import { SuperHeroModel } from './superhero.model';
 import { of } from 'rxjs/internal/observable/of';
 import { delay } from 'rxjs/internal/operators/delay';
 import { superHeroMock } from './superHeroMock';
@@ -15,7 +13,7 @@ export class SuperheroService {
   private http = inject(HttpClient);
   private superHeroMock: SuperHeroModel[] = superHeroMock;
 
-  // INFO: Example of a call to a real api and mapping of received data
+  // INFO: Example of a call to a real api and mapping of received data, Enable this call to check cache operation.
   // getAllSuperHeroes(): Observable<SuperHeroModel[]> {
   //   return this.http
   //     .get<SuperHeroModel[]>(environments.superHeroApiUrl + '/all.json')
