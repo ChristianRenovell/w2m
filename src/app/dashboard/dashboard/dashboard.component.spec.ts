@@ -5,7 +5,7 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 import { CardModule } from 'primeng/card';
 import { RouterTestingModule } from '@angular/router/testing';
 import { DashboardComponent } from './dashboard.component';
-import { SuperHeroModel } from 'src/app/core/api/superhero.model';
+
 import { SuperheroService } from 'src/app/core/api/superhero.service';
 import { SpinnerService } from 'src/app/shared/components/spinner/spinner.service';
 import { ToastService } from 'src/app/shared/components/toast/toast.service';
@@ -80,103 +80,18 @@ describe('DashboardComponent', () => {
     fixture.detectChanges();
   }));
 
-  it('should filter and map superheroes based on search query', () => {
-    const mockSuperheroes: SuperHeroModel[] = [
-      {
-        id: 1,
-        name: 'A-Bomb',
-        fullName: 'Richard Milhouse Jones',
-        height: '203 cm',
-        weight: '441 kg',
-        power: 24,
-        strength: 100,
-        speed: 17,
-        images: 'https://example.com/a-bomb.jpg',
-      },
-      {
-        id: 2,
-        name: 'Spider-Man',
-        fullName: 'Peter Parker',
-        height: '178 cm',
-        weight: '74 kg',
-        power: 90,
-        strength: 55,
-        speed: 67,
-        images: 'https://example.com/spider-man.jpg',
-      },
-    ];
-    component.superHeroesMockToSearch = mockSuperheroes;
-    const event: any = {
-      query: 'man',
+  it('should update suggestions after debounce timer', () => {
+    const autoCompleteEvent: any = {
+      originalEvent: null,
+      query: 'iron',
     };
-    component.predictiveSearch(event);
-    expect(component.suggestions.length).toBeGreaterThan(0);
-    expect(
-      component.suggestions.every((hero: SuperHeroModel) =>
-        hero.name.toLowerCase().includes(event.query.toLowerCase())
-      )
-    ).toBeTrue();
-    expect(
-      component.suggestions.every(
-        (hero: SuperHeroModel) =>
-          hero.name === mockSuperheroes.find((h) => h.name === hero.name)?.name
-      )
-    ).toBeTrue();
-    expect(
-      component.suggestions.every(
-        (hero: SuperHeroModel) =>
-          hero.fullName ===
-          mockSuperheroes.find((h) => h.name === hero.name)?.fullName
-      )
-    ).toBeTrue();
-  });
-
-  it('should filter and map superheroes based on search query', () => {
-    // Definir un array de superhéroes de ejemplo
-    const mockSuperheroes = [
-      {
-        id: 1,
-        name: 'A-Bomb',
-        fullName: 'Richard Milhouse Jones',
-        height: '203 cm',
-        weight: '441 kg',
-        power: 24,
-        strength: 100,
-        speed: 17,
-        images: 'https://example.com/a-bomb.jpg',
-      },
-      {
-        id: 2,
-        name: 'Spider-Man',
-        fullName: 'Peter Parker',
-        height: '178 cm',
-        weight: '74 kg',
-        power: 90,
-        strength: 55,
-        speed: 67,
-        images: 'https://example.com/spider-man.jpg',
-      },
-    ];
-
-    const event: any = {
-      query: 'man', // Consulta de ejemplo
-    };
-
-    component.superHeroesMockToSearch = mockSuperheroes;
-
-    component.predictiveSearch(event);
-
-    expect(component.suggestions.length).toBeGreaterThan(0);
-    expect(
-      component.suggestions.every((hero: { name: string }) =>
-        hero.name.toLowerCase().includes(event.query.toLowerCase())
-      )
-    ).toBeTrue();
-    expect(
-      component.suggestions.every(
-        (hero: { name: string | undefined }) =>
-          hero.name === mockSuperheroes.find((h) => h.name === hero.name)?.name
-      )
-    ).toBeTrue();
+    const debounceTimerDuration = 1000;
+    spyOn(window, 'setTimeout');
+    component.predictiveSearch(autoCompleteEvent);
+    // eslint-disable-next-line angular/timeout-service
+    expect(window.setTimeout).toHaveBeenCalledWith(
+      jasmine.any(Function),
+      debounceTimerDuration
+    );
   });
 });

@@ -20,6 +20,7 @@ import { ButtonComponent } from 'src/app/shared/components/button/button.compone
 import { SEARCHE_ERROR } from 'src/app/shared/constants/toastMessages';
 import { ToastService } from 'src/app/shared/components/toast/toast.service';
 import { NavigationTabViewService } from 'src/app/shared/components/tab-view/tab-view.services';
+import { AutoCompleteComponent } from 'src/app/shared/components/autoComplete/autoComplete.component';
 
 const DEBOUNCE_TIMER = 1000;
 
@@ -32,6 +33,7 @@ interface AutoCompleteCompleteEvent {
   selector: 'app-dashboard',
   standalone: true,
   imports: [
+    AutoCompleteComponent,
     CommonModule,
     CardHeroComponent,
     AutoCompleteModule,
@@ -46,7 +48,6 @@ interface AutoCompleteCompleteEvent {
 })
 export class DashboardComponent implements OnInit {
   public superHeroes!: SuperHeroModel[];
-  public seachHero!: string;
   public suggestions?: any;
   private debounceTimer?: any = undefined;
   //This variable is used to fake the predictive search because we are not working with a real api with this functionality.
@@ -87,28 +88,32 @@ export class DashboardComponent implements OnInit {
   }
 
   predictiveSearch(event: AutoCompleteCompleteEvent) {
-    this.suggestions = this.superHeroesMockToSearch
-      .filter((hero) =>
-        hero.name.toLowerCase().includes(event.query.toLowerCase())
-      )
-      .map((hero) => ({
-        ...hero,
-        name: this.capitalizeFirstLetterPipe.transform(hero.name),
-      }));
+    if (this.debounceTimer) clearTimeout(this.debounceTimer);
+    // eslint-disable-next-line angular/timeout-service
+    this.debounceTimer = setTimeout(() => {
+      this.ChangeDetectorRef.markForCheck();
+      this.suggestions = this.superHeroesMockToSearch
+        .filter((hero) =>
+          hero.name.toLowerCase().includes(event.query.toLowerCase())
+        )
+        .map((hero) => ({
+          ...hero,
+          name: this.capitalizeFirstLetterPipe.transform(hero.name),
+        }));
+    }, DEBOUNCE_TIMER);
   }
 
   onPredictionSelect(selectedHero: any) {
-    this.seachHero = selectedHero.value.name;
-    this.searchHero();
+    this.searchHero(selectedHero.value.name);
   }
 
-  searchHero() {
-    if (this.seachHero.length >= 3) {
+  searchHero(seachHero: string) {
+    if (seachHero.length >= 2) {
       if (this.debounceTimer) clearTimeout(this.debounceTimer);
       // eslint-disable-next-line angular/timeout-service
       this.debounceTimer = setTimeout(() => {
         this.spinnerService.showSpinner(true);
-        this.superheroService.getSuperHeroeBySeach(this.seachHero).subscribe({
+        this.superheroService.getSuperHeroeBySeach(seachHero).subscribe({
           next: (res) => {
             if (res) {
               this.ChangeDetectorRef.markForCheck();
