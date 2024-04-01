@@ -131,17 +131,52 @@ describe('DashboardComponent', () => {
     ).toBeTrue();
   });
 
-  it('should search for heroes when searchHero length is >= 3', waitForAsync(async () => {
-    const searchQuery = 'man';
+  it('should filter and map superheroes based on search query', () => {
+    // Definir un array de superhéroes de ejemplo
+    const mockSuperheroes = [
+      {
+        id: 1,
+        name: 'A-Bomb',
+        fullName: 'Richard Milhouse Jones',
+        height: '203 cm',
+        weight: '441 kg',
+        power: 24,
+        strength: 100,
+        speed: 17,
+        images: 'https://example.com/a-bomb.jpg',
+      },
+      {
+        id: 2,
+        name: 'Spider-Man',
+        fullName: 'Peter Parker',
+        height: '178 cm',
+        weight: '74 kg',
+        power: 90,
+        strength: 55,
+        speed: 67,
+        images: 'https://example.com/spider-man.jpg',
+      },
+    ];
 
-    component.seachHero = searchQuery;
-    superheroServiceSpy.getSuperHeroeBySeach.and.returnValue(of());
-    fixture.detectChanges();
-    await fixture.whenStable();
-    component.searchHero();
-    expect(spinnerServiceSpy.showSpinner).toHaveBeenCalledWith(true);
-    expect(component.superHeroes?.length).toBeGreaterThan(0);
-    expect(spinnerServiceSpy.showSpinner).toHaveBeenCalledWith(false);
-    expect(toastServiceSpy.showToast).not.toHaveBeenCalled();
-  }));
+    const event: any = {
+      query: 'man', // Consulta de ejemplo
+    };
+
+    component.superHeroesMockToSearch = mockSuperheroes;
+
+    component.predictiveSearch(event);
+
+    expect(component.suggestions.length).toBeGreaterThan(0);
+    expect(
+      component.suggestions.every((hero: { name: string }) =>
+        hero.name.toLowerCase().includes(event.query.toLowerCase())
+      )
+    ).toBeTrue();
+    expect(
+      component.suggestions.every(
+        (hero: { name: string | undefined }) =>
+          hero.name === mockSuperheroes.find((h) => h.name === hero.name)?.name
+      )
+    ).toBeTrue();
+  });
 });

@@ -54,7 +54,7 @@ export class DashboardComponent implements OnInit {
 
   //Services
   private spinnerService = inject(SpinnerService);
-  private SuperheroService = inject(SuperheroService);
+  private superheroService = inject(SuperheroService);
   private ChangeDetectorRef = inject(ChangeDetectorRef);
   private capitalizeFirstLetterPipe = inject(CapitalizeFirstLetterPipe);
   private router = inject(Router);
@@ -67,7 +67,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.spinnerService.showSpinner(true);
-    this.SuperheroService.getAllSuperHeroes().subscribe({
+    this.superheroService.getAllSuperHeroes().subscribe({
       next: (res) => {
         if (res) {
           this.ChangeDetectorRef.markForCheck();
@@ -108,7 +108,7 @@ export class DashboardComponent implements OnInit {
       // eslint-disable-next-line angular/timeout-service
       this.debounceTimer = setTimeout(() => {
         this.spinnerService.showSpinner(true);
-        this.SuperheroService.getSuperHeroeBySeach(this.seachHero).subscribe({
+        this.superheroService.getSuperHeroeBySeach(this.seachHero).subscribe({
           next: (res) => {
             if (res) {
               this.ChangeDetectorRef.markForCheck();

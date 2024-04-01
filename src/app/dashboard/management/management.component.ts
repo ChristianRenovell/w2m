@@ -98,7 +98,6 @@ export class ManagementComponent implements OnInit {
   }
 
   submit(): void {
-    console.log(this.form);
     if (this.form.valid) {
       const heroReq: SuperHeroModel = { ...this.form.value };
       heroReq.images = this.imageView as string;
